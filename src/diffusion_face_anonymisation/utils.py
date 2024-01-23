@@ -69,6 +69,15 @@ def get_face_cutout(image, mask_dict):
     face_cutout_np = image[face_slice]
     return Image.fromarray(face_cutout_np)
 
+def save_mask_image(mask_dict, path_to_save):
+    mask_image = Image.fromarray(mask_dict["mask"])
+    mask_image.save(path_to_save)
+    
+def get_composite_mask(mask_dict_list, image_width, image_height):
+    composite_mask_np = np.zeros((image_height, image_width), np.uint8)
+    for mask_dict in mask_dict_list:
+        composite_mask_np[mask_dict["bb"].get_slice_area()] = 255
+    return Image.fromarray(composite_mask_np)
 
 def encode_image_mask_to_b64(init_img, mask_img):
     init_img_bytes = BytesIO()
