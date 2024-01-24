@@ -4,10 +4,14 @@ RUN apt-get update && apt-get install -y wget git build-essential python3 python
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /opt/gui
 WORKDIR /opt/gui
 RUN git checkout tags/v1.7.0
+RUN python3 -m pip install -U xformers --index-url https://download.pytorch.org/whl/cu118
 RUN python3 -m pip install -r requirements_versions.txt
 RUN python3 -m pip install open_clip_torch
-RUN git clone git clone https://github.com/Stability-AI/generative-models.git repositories/generative-models
-RUN git clone https://github.com/Stability-AI/stablediffusion repositories/stable-diffusion-stability-ai
+RUN git clone https://github.com/Stability-AI/generative-models.git /repositories/generative-models
+
+RUN git clone https://github.com/sczhou/CodeFormer.git /repositories/CodeFormer
+RUN git clone https://github.com/crowsonkb/k-diffusion.git /repositories/k_diffusion
+RUN git clone https://github.com/Stability-AI/stablediffusion /repositories/stable-diffusion-stability-ai
 RUN python3 -m pip install --pre git+https://github.com/crowsonkb/k-diffusion.git --prefer-binary --extra-index-url https://download.pytorch.org/whl/nightly/cu118
 
 COPY . /tool
