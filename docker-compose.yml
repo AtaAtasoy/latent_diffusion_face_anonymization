@@ -8,13 +8,13 @@ services:
      - "7860:7860"
     volumes:
       # masks
-      - /path/to/mask/dir:/data/masks 
+      - ./data/masks:/data/masks 
       # images
-      - /path/to/image/dir:/data/images
+      - ../data/images:/data/images
       # anonymized (output images)
-      - /path/to/anon/output/dir:/data/anonymized
+      - ./data/anonymized:/data/anonymized
       # weights
-      - /path/to/latent_diff_weoghts/dir:/opt/gui/models/Stable-diffusion
+      - ./models/stable-diffusion:/opt/gui/models/Stable-diffusion
     deploy:
       resources:
         reservations:

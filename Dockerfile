@@ -7,12 +7,8 @@ RUN git checkout tags/v1.7.0
 RUN python3 -m pip install -U xformers --index-url https://download.pytorch.org/whl/cu118
 RUN python3 -m pip install -r requirements_versions.txt
 RUN python3 -m pip install open_clip_torch
-RUN git clone https://github.com/Stability-AI/generative-models.git /repositories/generative-models
-
-RUN git clone https://github.com/sczhou/CodeFormer.git /repositories/CodeFormer
-RUN git clone https://github.com/crowsonkb/k-diffusion.git /repositories/k_diffusion
-RUN git clone https://github.com/Stability-AI/stablediffusion /repositories/stable-diffusion-stability-ai
 RUN python3 -m pip install --pre git+https://github.com/crowsonkb/k-diffusion.git --prefer-binary --extra-index-url https://download.pytorch.org/whl/nightly/cu118
+RUN git clone https://github.com/Stability-AI/generative-models.git /repositories/generative-models
 
 COPY . /tool
 WORKDIR /tool
