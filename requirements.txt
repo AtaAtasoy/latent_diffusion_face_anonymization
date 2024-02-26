@@ -1,5 +1,4 @@
 retina-face
-tensorflow
 pillow
 requests
 scikit-image
