@@ -30,12 +30,6 @@ read -p "Enter the image extension (default jpg): " image_extension
 image_extension=${image_extension:-jpg}
 echo "Image extension set to: $image_extension"
 
-# Export variables for docker-compose
-#export IMAGES_VOLUME=$images_volume
-#export MASKS_VOLUME=$masks_volume
-#export ANONYMIZED_VOLUME=$anonymized_volume
-#export DEVICE_ID=$device_id
-#export PORT=$port
 
 # Create .env file
 echo "PORT=$port" > .env
@@ -46,4 +40,4 @@ echo "DEVICE_ID=$device_id" >> .env
 echo "IMAGE_EXTENSION=$image_extension" >> .env
 
 # Run docker-compose
-echo "Environment variables set. You can now run (sudo) docker compose up."
+echo "Environment variables set. You can now run "docker compose up"."

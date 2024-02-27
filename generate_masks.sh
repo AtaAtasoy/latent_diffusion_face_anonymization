@@ -4,6 +4,7 @@
 read -p "Enter the image extension (default jpg): " image_extension
 image_extension=${image_extension:-jpg}
 
+# Read face detection threshold
 read -p "Enter the detection threshold (default 0.3): " detection_threshold
 detection_threshold=${detection_threshold:-0.3}
 
