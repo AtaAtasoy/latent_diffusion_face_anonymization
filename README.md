@@ -2,13 +2,14 @@
 
 # Latent Diffusion Face Anonymisation LDFA
 This repository contains the code for the paper LDFA: Latent Diffusion Face Anonymization for Self-driving Applications.
-Personal Contributions:
-* Modifications to Dockerfile for integrating [xformers](https://github.com/facebookresearch/xformers), [k-diffusion](https://github.com/crowsonkb/k-diffusion.git), [taming-transformers](https://github.com/CompVis/taming-transformers.git) and [CodeFormer](https://github.com/sczhou/CodeFormer) to [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui).
-* Additional bash scripts to setup the environment and running detection & anonymization.
+
+## Personal Contributions:
+- Modifications to Dockerfile for integrating [xformers](https://github.com/facebookresearch/xformers), [k-diffusion](https://github.com/crowsonkb/k-diffusion.git), [taming-transformers](https://github.com/CompVis/taming-transformers.git) and [CodeFormer](https://github.com/sczhou/CodeFormer) to [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui).
+- Additional bash scripts to setup the environment and running detection & anonymization.
 
 ## Requirements
-* Docker Compose V2. See [Diff between V1 and V2](https://docs.docker.com/compose/migrate/#what-are-the-functional-differences-between-compose-v1-and-compose-v2). [Install](https://docs.docker.com/compose/install/linux/)
-* [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html)
+- Docker Compose V2. See [Diff between V1 and V2](https://docs.docker.com/compose/migrate/#what-are-the-functional-differences-between-compose-v1-and-compose-v2). [Install](https://docs.docker.com/compose/install/linux/)
+- [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html)
 
 ## Setup
 ```shell
@@ -34,15 +35,18 @@ bash anonymize.sh
 The dockerfile is used to start container which runs the [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui) web UI for stable diffusion. LDFA uses the API to conveniently use a stable diffusion model for the anonymization of human faces.
 
 ### Scripts
-`detect_faces.py` - This script uses [RetinaFace](https://github.com/serengil/retinaface) to detect faces on a given dataset.  
-`ldfa_face_anon.py` - This script implements the LDFA anonymization method.  
-`simple_face_anon.py` - This script implements the naive anonymization methods cropping, gaussian noise and pixelaziation which are applied on detected faces. 
+
+- `detect_faces.py` - This script uses [RetinaFace](https://github.com/serengil/retinaface) to detect faces on a given dataset.  
+- `ldfa_face_anon.py` - This script implements the LDFA anonymization method.  
+- `simple_face_anon.py` - This script implements the naive anonymization methods cropping, gaussian noise and pixelaziation which are applied on detected faces. 
 
 ### Bash Scripts
-`setup_requirements.sh` - Downloads `stable-diffusion-2-inpainting` weights from HuggingFace, saves it at `models/stable-diffusion` w/ name `last.ckpt`
-`setup_compose_env.sh` - Creates `.env` which includes port, directories(input, output) and image extension.
-`generate_masks.sh` - Runs `detect_faces.py` in the container.
-`anonymize.sh` - Runs `ldfa_face_anon.py` in the container.
+
+- `setup_requirements.sh` - Downloads `stable-diffusion-2-inpainting` weights from HuggingFace, saves it at `models/stable-diffusion` with the name `last.ckpt`.
+- `setup_compose_env.sh` - Creates `.env` which includes port, directories (input, output) and image extension.
+- `generate_masks.sh` - Runs `detect_faces.py` in the container.
+- `anonymize.sh` - Runs `ldfa_face_anon.py` in the container.
+
 
 # Citation
 
