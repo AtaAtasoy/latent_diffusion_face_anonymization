@@ -30,6 +30,7 @@ WORKDIR /opt/gui
 
 # Install xformers
 RUN python3 -m pip install ninja
+# Setting a large list to support multiple GPU architectures
 ENV TORCH_CUDA_ARCH_LIST="6.0;6.1;6.2;7.0;7.2;7.5;8.0;8.6"
 RUN python3 -m pip install -U xformers --index-url https://download.pytorch.org/whl/cu121
 

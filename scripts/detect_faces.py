@@ -29,17 +29,21 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--image_dir', required=True, type=str, help='Path to input directory')
     parser.add_argument('--mask_dir', required=True, type=str, help='Path to masks (output) directory')
+    parser.add_argument('--threshold', type=float, default=0.3, help='Threshold for face detection')
+    parser.add_argument('--image_extension', type=str, default='jpg', help='Image extension to look for in the input directory')
     args = parser.parse_args()
 
     input_path = args.image_dir
     output_path = args.mask_dir
+    img_extension = args.image_extension
+    detection_treshold = float(args.threshold)
 
 
-    img_paths = list(os.listdir(input_path))
+    img_paths = [img for img in list(os.listdir(input_path)) if img.endswith(img_extension)]
     for image in tqdm(img_paths):
         img_path = f"{input_path}/{image}"
         print(img_path)
-        faces = detect(img_path=img_path)
+        faces = detect(img_path=img_path, threshold=detection_treshold)
 
         os.makedirs(f"{output_path}", exist_ok=True)
         output_file = f"{output_path}/{os.path.splitext(os.path.basename(img_path))[0]}.json"

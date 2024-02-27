@@ -1,9 +1,33 @@
-![Static Badge](https://img.shields.io/badge/Paper-CVPRW23-1c75b8?style=plastic&link=https%3A%2F%2Fopenaccess.thecvf.com%2Fcontent%2FCVPR2023W%2FE2EAD%2Fpapers%2FKlemp_LDFA_Latent_Diffusion_Face_Anonymization_for_Self-Driving_Applications_CVPRW_2023_paper.pdf)
-
-
+[![Static Badge](https://img.shields.io/badge/Paper-CVPRW23-1c75b8?style=plastic)](https://openaccess.thecvf.com/content/CVPR2023W/E2EAD/papers/Klemp_LDFA_Latent_Diffusion_Face_Anonymization_for_Self-Driving_Applications_CVPRW_2023_paper.pdf)
 
 # Latent Diffusion Face Anonymisation LDFA
 This repository contains the code for the paper LDFA: Latent Diffusion Face Anonymization for Self-driving Applications.
+Personal Contributions:
+* Modifications to Dockerfile for integrating [xformers](https://github.com/facebookresearch/xformers), [k-diffusion](https://github.com/crowsonkb/k-diffusion.git), [taming-transformers](https://github.com/CompVis/taming-transformers.git) and [CodeFormer](https://github.com/sczhou/CodeFormer) to [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui).
+* Additional bash scripts to setup the environment and running detection & anonymization.
+
+## Requirements
+* Docker Compose V2. See [Diff between V1 and V2](https://docs.docker.com/compose/migrate/#what-are-the-functional-differences-between-compose-v1-and-compose-v2). [Install](https://docs.docker.com/compose/install/linux/)
+* [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html)
+
+## Setup
+```shell
+bash setup_requirements.sh # Downloads stable diffusion weights & nvidia-container-toolkit
+bash setup_compose_env.sh # Sets the container variables
+```
+
+## Usage
+After you run ```setup_requirements.sh``` and ```setup_compose_env.sh```, you can start the docker instances with `docker compose up`.
+The script will look for all images with the given extension in the provided root folder. Make sure you are using `bash` to execute the scripts.
+Once the docker container is running you can generate masks with:
+```shell
+bash generate_masks.sh
+```
+
+and anonymize the detected faces using:
+```shell
+bash anonymize.sh
+```
 
 ## Structure
 ### Dockerfile
@@ -14,26 +38,11 @@ The dockerfile is used to start container which runs the [Automatic1111](https:/
 `ldfa_face_anon.py` - This script implements the LDFA anonymization method.  
 `simple_face_anon.py` - This script implements the naive anonymization methods cropping, gaussian noise and pixelaziation which are applied on detected faces. 
 
-### Test
-The tests are not meant to be used as a unit test, but to show a quick script usage of our tooling. The tests are run on some samples from the [cityscapes](https://www.cityscapes-dataset.com/) dataset.
-## Usage
-Please use the provided Docker container. Make sure that you have Docker Compose V2. See [Diff between V1 and V2](https://docs.docker.com/compose/migrate/#what-are-the-functional-differences-between-compose-v1-and-compose-v2)
-
-Prior to using this tool, please make sure that you have correctly set up the image, mask, anonymized, and weights volumes inside the `docker-compose.yml` file. 
-Furthermore, you can freely specify which GPU should be used.
-You can start the needed docker instances with `docker compose up`.
-The script will look for all images in the given root folder. The default extension is `png`. If you want to use other extension, you can provide a flag to the corresponding python scripts, e.g. `--image_extension=jpg`.
-
-Once the docker container is running you can generate masks using:
-```shell
-docker compose exec anon python3 /tool/scripts/detect_faces.py --image_dir=/data/images --mask_dir=/data/masks
-```
-
-and anonymize the detected faces using:
-
-```shell
-docker compose exec anon python3 /tool/scripts/ldfa_face_anon.py --image_dir=/data/images --mask_dir=/data/masks --output_dir=/data/anonymized
-```
+### Bash Scripts
+`setup_requirements.sh` - Downloads `stable-diffusion-2-inpainting` weights from HuggingFace, saves it at `models/stable-diffusion` w/ name `last.ckpt`
+`setup_compose_env.sh` - Creates `.env` which includes port, directories(input, output) and image extension.
+`generate_masks.sh` - Runs `detect_faces.py` in the container.
+`anonymize.sh` - Runs `ldfa_face_anon.py` in the container.
 
 # Citation
 

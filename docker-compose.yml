@@ -5,20 +5,16 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-     - "7860:7860"
+     - "${PORT}:7860"
     volumes:
-      # masks
-      - ./data/masks:/data/masks 
-      # images
-      - ../data/images:/data/images
-      # anonymized (output images)
-      - ./data/anonymized:/data/anonymized
-      # weights
-      - ./models/stable-diffusion:/opt/gui/models/Stable-diffusion
+      - ${MASKS_VOLUME}:/data/masks
+      - ${IMAGES_VOLUME}:/data/images
+      - ${ANONYMIZED_VOLUME}:/data/anonymized
+      -  .models/stable-diffusion:/opt/gui/models/Stable-diffusion
     deploy:
       resources:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['0']
+            device_ids: ['${DEVICE_ID}']
             capabilities: [gpu]
