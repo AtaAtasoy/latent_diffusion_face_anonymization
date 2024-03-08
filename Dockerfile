@@ -34,6 +34,7 @@ RUN python3 -m pip install ninja
 ENV TORCH_CUDA_ARCH_LIST="6.0;6.1;6.2;7.0;7.2;7.5;8.0;8.6"
 RUN python3 -m pip install -U xformers --index-url https://download.pytorch.org/whl/cu118
 
+# torchvision nms bugfix
 RUN python3 -m pip uninstall -y torchvision
 RUN git clone https://github.com/pytorch/vision.git
 WORKDIR /opt/gui/vision

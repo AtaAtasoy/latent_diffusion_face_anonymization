@@ -1,5 +1,6 @@
 retina-face
 pillow
+tensorflow==2.14.0
 requests
 scikit-image
 pyyaml
